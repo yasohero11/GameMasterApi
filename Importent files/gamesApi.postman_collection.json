@@ -1,0 +1,919 @@
+{
+	"info": {
+		"_postman_id": "c100383b-2d10-45ba-a578-7fadf348b837",
+		"name": "gamesApi",
+		"description": "**GameMaster API for Games reviewer web application**",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11044887"
+	},
+	"item": [
+		{
+			"name": "games",
+			"item": [
+				{
+					"name": "Get Games",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/games?price[lte]=1000&sort=-price&name=new name name123",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"games"
+							],
+							"query": [
+								{
+									"key": "price[lte]",
+									"value": "1000"
+								},
+								{
+									"key": "sort",
+									"value": "-price"
+								},
+								{
+									"key": "name",
+									"value": "new name name123"
+								}
+							]
+						},
+						"description": "**Get All Games in the database, you can add options to manipulatedata:**\n\n##### Options:\n\n- sleect=\n- sorting in ASC order; sort=\n- sorting in ASC order; sort=<-fieldsName,- ...>\n- Greater than or equal; fieldName\\[gte\\]=\n- Less than or equal; fieldName\\[lte\\]=\n- Greater than; fieldName\\[gt\\]=\n- Less than; fieldName\\[gt\\]=\n- select on specified array of values; fieldName\\[in\\] = \\[ Value , ....\\]"
+					},
+					"response": [
+						{
+							"name": "Get Games With Greater Than or Equale",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5050/api/v1/games?price[gte]=1000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5050",
+									"path": [
+										"api",
+										"v1",
+										"games"
+									],
+									"query": [
+										{
+											"key": "price[gte]",
+											"value": "1000"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Get Games With Less Than or Equale",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/v1/games?price[lte]=150",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"games"
+									],
+									"query": [
+										{
+											"key": "price[lte]",
+											"value": "150"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Get Games With Select Option",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/v1/games?select=name,price",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"games"
+									],
+									"query": [
+										{
+											"key": "select",
+											"value": "name,price"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Get Games With Sort Option",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/v1/games?sort=-price",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"games"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "-price"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Get Games With Limit Option",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/v1/games?limit=5",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"games"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Singel Game",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/v1/games/5f99569b57e5b018a881aa9f",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"games",
+								"5f99569b57e5b018a881aa9f"
+							]
+						},
+						"description": "**Get Sigle Game from the database with spicfied id as a parameter**\n\nThis route is only accessible via admin user"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Game",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Banana Land Game22222\",\r\n    \"price\": 150\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/games/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"games",
+								""
+							]
+						},
+						"description": "**Create Sigle Game in the database with spicfied data in the body**\n\nThis route is only accessible via admin user\n\nEndFragment"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Game",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"youssef osama\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/games/5f99569b57e5b018a881aa9f",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"games",
+								"5f99569b57e5b018a881aa9f"
+							]
+						},
+						"description": "**Update Sigle Game in the database with spicfied data in the body**\n\nThis route is only accessible via admin user\n\nEndFragment"
+					},
+					"response": []
+				},
+				{
+					"name": "Add An Image To A Game ",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/tazos/Downloads/Person-Placeholder.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/games/5fa66d23f530b73a4c013e08/upload",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"games",
+								"5fa66d23f530b73a4c013e08",
+								"upload"
+							]
+						},
+						"description": "**Upload Game's Image in the server's file system with spicfied id as a parameter**\n\nThis route is only accessible via admin user\n\nEndFragment"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Game",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/games/5f99600d09643411a416ad34",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"games",
+								"5f99600d09643411a416ad34"
+							]
+						},
+						"description": "**Delete Sigle Game in the database with spicfied id as a parameter**\n\nThis route is only accessible via admin user\n\nEndFragment"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Serveys",
+			"item": [
+				{
+					"name": "Get Serveys",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/surveys",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"surveys"
+							]
+						},
+						"description": "**Get All Reviews in the database, you can add options to manipulatedata:**\n\n##### Options:\n\n- sleect=\n- sorting in ASC order; sort=\n- sorting in ASC order; sort=<-fieldsName,- ...>\n- Greater than or equal; fieldName\\[gte\\]=\n- Less than or equal; fieldName\\[lte\\]=\n- Greater than; fieldName\\[gt\\]=\n- Less than; fieldName\\[gt\\]=\n- select on specified array of values; fieldName\\[in\\] = \\[, ....\\]"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Servey",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/surveys/6404c7b5299d182860cfcffa",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"surveys",
+								"6404c7b5299d182860cfcffa"
+							]
+						},
+						"description": "**Get Sigle Review from the database with spicfied id as a parameter**\n\nThis route is only accessible via admin user"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Servey",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \r\n    \"comment\":\"Des des des des des des\",\r\n    \"rate\":5 \r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/surveys/5fa7f38ae43b410017be93cb",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"surveys",
+								"5fa7f38ae43b410017be93cb"
+							]
+						},
+						"description": "**Create Sigle Review in the database with spicfied data as in the body**\n\nThis route is only accessible via admin and authenticated user\n\nEndFragment"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Servey",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\":\"asdjmasdnhaskj dbaskjhdb ashjdb ajhsdbas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/surveys/64050d4cde577d3f5c090897",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"surveys",
+								"64050d4cde577d3f5c090897"
+							]
+						},
+						"description": "**Update Sigle Review in the database with spicfied data as in the body**\n\nThis route is only accessible via admin and authenticated user\n\nEndFragment"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Servey",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/surveys/64050d4cde577d3f5c090897",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"surveys",
+								"64050d4cde577d3f5c090897"
+							]
+						},
+						"description": "**Delete Sigle Review in the database with spicfied data as in the body**\n\nThis route is only accessible via admin and authenticated user\n\nEndFragment"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authntication",
+			"item": [
+				{
+					"name": "Register A User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Yosusef Osama\",\r\n    \"email\": \"tazosama@gmail.com\", \r\n    \"password\": \"12356\" \r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/register",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						},
+						"description": "**Rigester a user to the database with spicfied data in the body**"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current Loged in user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/me",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"me"
+							]
+						},
+						"description": "**Get the current logged-in user**\n\nthis route is accessible via authenticated user or admin"
+					},
+					"response": []
+				},
+				{
+					"name": "login User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"email@gmail.com\", \r\n    \"password\": \"1234567\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						},
+						"description": "**Login the authenticated user**"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/logout",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						},
+						"description": "**Logged-out the current user**\n\nthis route is accessible via authenticated user or admin"
+					},
+					"response": []
+				},
+				{
+					"name": "Forget Password",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmUwNzgzYmNjNmE4MWQ3OGE4MTFiNyIsImlhdCI6MTY3Nzg3ODYyOSwiZXhwIjoxNjgwNDcwNjI5fQ.AEg9cB1zc6WSiChO2MaNWSDTN2zTGqlO-9Jt8svP5aA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"tazosama11@gmail.com\"\r\n \r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/forgetpassword",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"forgetpassword"
+							]
+						},
+						"description": "**Sending a forgot-password email contains a reset-password link with reset token**"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/resetpassword/93a3f9b3d3122763639a09b00cc040cb41c90a30",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"resetpassword",
+								"93a3f9b3d3122763639a09b00cc040cb41c90a30"
+							]
+						},
+						"description": "Resetting the user's password with a token as a parameter and the new password is in the body, After resting the password successfully, a confirmation email will be sent to the user"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Info",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Youssef Osama Fareed\",\r\n    \"email\":\"ahmed00552@gmail.com\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/updateuser/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"updateuser",
+								""
+							]
+						},
+						"description": "**Updating user's info using the user's ID passed in the request parameter and new data in the body**\n\nThis route is accessible via authenticated user and admin"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\":\"1234567\",\r\n    \"newPassword\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/auth/updatepassword",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"updatepassword"
+							]
+						},
+						"description": "**Updating user's password**\n\nThis route is accessible via authenticated user and admin"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/users?role=user&limit=5",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "user"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						},
+						"description": "**Get All Users in the database, you can add options to manipulatedata:**\n\nThis route is only accessible via admin user\n\n##### Options:\n\n- sleect=\n- sorting in ASC order; sort=\n- sorting in ASC order; sort=<-fieldsName,- ...>\n- Greater than or equal; fieldName\\[gte\\]=\n- Less than or equal; fieldName\\[lte\\]=\n- Greater than; fieldName\\[gt\\]=\n- Less than; fieldName\\[gt\\]=\n- select on specified array of values; fieldName\\[in\\] = \\[ Value, ....\\]"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/users/64026444e8a91f57147441a2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"64026444e8a91f57147441a2"
+							]
+						},
+						"description": "**Get Sigle User from the database with spicfied id as a parameter**\n\nThis route is only accessible via admin user"
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Yosusef Osama\",\r\n    \"email\": \"email@gmail.com\", \r\n    \"password\": \"12356\",\r\n    \"role\":\"user\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/users/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						},
+						"description": "**Create Sigle User to the database with spicfied data in the body**\n\nThis route is only accessible via admin user"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Mohamed Osama Fareed\",\r\n    \"role\":\"admin\",\r\n    \"email\":\"email@gamil.com\",\r\n    \"activate\":true\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/users/64026444e8a91f57147441a2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"64026444e8a91f57147441a2"
+							]
+						},
+						"description": "**Update Sigle User to the database with spicfied id in the parameter and data in the body**\n\nThis route is only accessible via admin user"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/users/64026444e8a91f57147441a2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"64026444e8a91f57147441a2"
+							]
+						},
+						"description": "**Delete Sigle User to the database with spicfied id in the parameter**\n\nThis route is only accessible via admin user"
+					},
+					"response": []
+				},
+				{
+					"name": "User Soft Delete",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZmUwNzgzYmNjNmE4MWQ3OGE4MTFiNyIsImlhdCI6MTY3Nzg3ODYyOSwiZXhwIjoxNjgwNDcwNjI5fQ.AEg9cB1zc6WSiChO2MaNWSDTN2zTGqlO-9Jt8svP5aA",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/users/64026444e8a91f57147441a2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"64026444e8a91f57147441a2"
+							]
+						},
+						"description": "**Soft delete (deactivate) Sigle User to the database with spicfied id in the parameter**\n\nThis route is only accessible via admin user"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

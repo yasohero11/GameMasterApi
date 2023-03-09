@@ -8,7 +8,7 @@ const errorHandler = (err, req, res, next)=>{
     
 
     if(err.name === "CastError"){
-        error = new ErrorResponse(`Element Not Found With Id of ${err.value}`, 404)
+        error = new ErrorResponse(`Element Not Found`, 404)
     }else if( err.name === "ValidationError"){
         error = new ErrorResponse(Object.values(err.errors).map(val => val.message), 400)
     }
@@ -21,6 +21,7 @@ const errorHandler = (err, req, res, next)=>{
 
 
     console.log(error.message.red.bold)
+    console.log(err.stack)
 
     res.status(error.statusCode || 500)
        .json({

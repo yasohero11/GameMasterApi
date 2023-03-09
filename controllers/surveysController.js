@@ -3,6 +3,7 @@ const asyncHandler =  require("../middlewares/asyncHandler")
 const Serveys = require("../models/survey")
 const Games = require("../models/Games")
 const ErrorResponse = require("../utilities/ErrorResponse")
+const survey = require("../models/survey")
 
 
 module.exports = {
@@ -10,7 +11,13 @@ module.exports = {
     // START get a signle Servey
    getServey : asyncHandler( async (req, res, next)=>{
             
-            const Servey = await Serveys.findById(req.params.id)
+            const Servey = await Serveys.findById(req.params.id).populate({
+                path:"game",
+                select:"name, price"
+            }).populate({
+                path:"user",
+                select:"name, email"
+            })
             res.status(200)
                 .json({
                     success: true,
@@ -24,79 +31,46 @@ module.exports = {
     // STRAT get more than one Servey 
     getServeys : asyncHandler( async (req, res, next) =>{
         
-        /*
-            let servies
-            let query
-            let selectedFields
-            let sortBy
-            // the current page
-            const page = parseInt(req.query.page,10) || 1;
-            // the limit number of the Servey
-            const limit =  parseInt(req.query.limit, 10) || 2;
-            const startIndex = (page - 1) * limit
-
-            const totalDocs = Serveys.countDocuments()
-            // the main query from the request
-            const reqQuery = {... req.query}
-            // removable fileds
-            const removedFields = ['select', 'sort','page','limit']
-            removedFields.forEach(param => delete reqQuery[param])
-            // string version of the query
-            let queryStr =  JSON.stringify(reqQuery)
-
-            queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, str => `$${str}`)
-            
-            query =   Serveys.find(JSON.parse(queryStr))
-            
-            if(req.query.select){   
-                selectedFields = req.query.select.split(",").join(" ")                       
-                query = query.select(selectedFields);
-            }
-
-            if(req.query.sort){
-                sortBy =  req.query.sort.split(",").join(" ")              
-                query = query.sort(`${sortBy}`);
-            }else            
-                query = query.sort(`-createdAt`);
-
-            // paggination
-            query =  query.skip(startIndex).limit(limit)
-            
-            Serveys = await query
-            */
+     
            let serveys;
             
            if(req.params.gameId){
-            serveys  = await Serveys.find({gameId:req.params.gameId})
-           }else
-            serveys  = await Serveys.find()
-            res.status(200)
+                serveys  = await Serveys.find({gameId:req.params.gameId})
+                res.status(200)
                 .json({
                     success: true,    
                     count: serveys.length,
                     data: serveys
                 })
+           }else{
+            serveys  = await Serveys.find()
+            res.status(200).json(res.advancedResults)
+
+           }
+           
     }),
     //END
 
 
     // START create a Servey
     createServey : asyncHandler( async (req, res, next) =>{
-            req.body.gameId = req.params.gameId
+
+          
             
-            const game = Games.findById({_id:req.params.gameId})
+            const game = Games.findById({_id:req.params.id})
 
             if(!game){
                 return next(
-                    new ErrorResponse(new ErrorResponse(`Thier Is No Game With Id ${req.params.id} `, 404))
+                  new ErrorResponse(`Thier Is No Game With Id ${req.params.id} `, 404)
                 )
             }
-
+            req.body.game= req.params.id
+            req.body.user = req.user._id
             const servey = await Serveys.create(req.body)
             res.status(201)
                 .json({
                     success: true,
-                    data: servey
+                    data: servey    
                 })
                 
     }),
@@ -104,6 +78,16 @@ module.exports = {
 
     // START update a Servey
     updateServey : asyncHandler( async (req, res, next) =>{
+
+            const servey = await Serveys.findById(req.params.id)
+                  
+            if(!servey)
+                return next(new ErrorResponse(`No servey with id ${req.params.id}`, 404))
+                
+            if(req.user._id != servey.user.toString() && req.user.role != "admin" )
+                return next(new ErrorResponse(`Unauthorize access to servey ${req.params.id} from user ${req.user._id} `, 404))
+
+
             const updatedServey = await Serveys.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
             res.status(200)
                 .json({
@@ -118,14 +102,45 @@ module.exports = {
     // START delete a Servey
     deleteServey: asyncHandler( async (req, res, next) =>{
         
-            const deletedServey  = await Serveys.findByIdAndDelete(req.params.id)
+            
+
+            let servey = await Serveys.findById(req.params.id)
+            
+            if(!servey)
+                return next(new ErrorResponse(`No servey with id ${req.params.id}`, 404))
+            
+            if(req.user._id != servey.user.toString() && req.user.role != "admin" )
+                return next(new ErrorResponse(`Unauthorize access to servey ${req.params.id} from user ${req.user._id} `, 404))
+
+            
+            servey =  await servey.remove()   
+
             res.status(200)
                .json({
                    success:true,
-                   _id:deletedServey._id
+                   id:servey._id
                })
 
-    })
+    }),
     // END 
+
+       // START delete a game
+       deleteMany: asyncHandler(async (req, res, next) => {
+
+
+        const filer = req.query
+        const deletedServeys = await Serveys.find(filer)
+        await Serveys.deleteMany(filer)
+
+        //deletedGame.remove();
+        res.status(200)
+            .json({
+                success: true,
+                totle: deletedServeys.length,
+                deletedServeys
+            })
+
+    })
+    // END
 
 }
