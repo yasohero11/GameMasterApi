@@ -1,0 +1,1 @@
+docgen build -i gamesApi.postman_collection.json -o ./index.html 
