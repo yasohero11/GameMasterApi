@@ -19,8 +19,9 @@ const errorHandler = require("./middlewares/errorHandler")
 const games = require("./routes/games")
 const serveys = require("./routes/surveys")
 const auth = require("./routes/auth")
-const admin = require("./routes/admin")
+
 const users = require("./routes/users")
+const tags =  require("./routes/tags")
 
 
 // middleware files
@@ -89,7 +90,8 @@ app.use("/api/v1/games/" ,  games)
 app.use("/api/v1/surveys/" ,  serveys)
 app.use("/api/v1/auth/" ,  auth)
 app.use("/api/v1/users/" , users)
-app.use("/api/v1/admin/" ,  admin)
+
+app.use("/api/v1/tags/", tags)
 
 
 

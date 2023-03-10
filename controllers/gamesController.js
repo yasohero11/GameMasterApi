@@ -9,7 +9,9 @@ module.exports = {
     // START get a signle game
     getGame: asyncHandler(async (req, res, next) => {
 
-        const game = await Games.findById(req.params.id).populate("survey")
+        const game = await Games.findById(req.params.id)
+                        .populate("survey")
+                        .populate("tags")
 
         if (!game)
             return next(new ErrorResponse(`Thier Is No Game With Id ${req.params.id} `, 404))
@@ -36,8 +38,9 @@ module.exports = {
 
     // START create a game
     createGame: asyncHandler(async (req, res, next) => {
-
+        req.body.tags = [...new Set(req.body.tags)]
         const game = await Games.create(req.body)
+        
         res.status(201)
             .json({
                 success: true,

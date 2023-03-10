@@ -37,6 +37,7 @@ const GamesSchema = new mongoose.Schema({
         required: [true, "Game's Description IS Required"]
     },
 
+    tags:[{type : mongoose.Schema.ObjectId, ref:"Tags"}], 
 
     rating: {
         type: Number,
@@ -103,6 +104,7 @@ GamesSchema.pre('remove', async function (next) {
 });
 
 GamesSchema.pre("save", function (next) {
+    
     this.slug = slugify(this.name, { lower: true })
     next()
 })
