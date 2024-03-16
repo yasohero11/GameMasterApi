@@ -33,7 +33,7 @@ const UserSchema =  new mangoose.Schema({
 
     image:{
         type:String,
-        required:[true, 'Please Enter Your Photo'],
+        //required:[true, 'Please Enter Your Photo'],
         default:"user_placeholder.png"
     },
     activate: {

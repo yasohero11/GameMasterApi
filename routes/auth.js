@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router()
 
-const { register, loginUser, forgotPassword, resetPassword, updateUser, getMe, updatePassword, logout } = require("../controllers/auth")
+const { register, loginUser, forgotPassword, resetPassword, updateUser, getMe, updatePassword, logout, uploadUserImage } = require("../controllers/auth")
 
 const {protect} =  require("../middlewares/auth")
 
@@ -16,6 +16,7 @@ router.get("/me", protect ,getMe)
 router.put("/updateuser", protect, updateUser)
 router.put("/updatepassword", protect, updatePassword)
 router.put("/resetpassword/:resetPasswordToken", resetPassword)
+router.put("/upload/image", uploadUserImage)
 
 
 

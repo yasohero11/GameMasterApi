@@ -19,7 +19,7 @@ router.route("/")
         
 
 
-router.route("/:id/upload")
+router.route("/upload")
         .put(protect ,authorize("admin"), uploadGameImage)  
 
 

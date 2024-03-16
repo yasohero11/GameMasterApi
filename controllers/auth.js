@@ -3,13 +3,16 @@ const crypto = require("crypto")
 const asyncHandler = require("../middlewares/asyncHandler")
 const ErrorResponse = require("../utilities/ErrorResponse")
 const sendEmail = require("../utilities/sendEmail")
-
+const path = require("path")
 
 
 
 // function to create a token and send a cookie to the clinit
 const sendJwtTokenResponse = (user, statusCode, res) => {
     const token = user.getJwtToken()
+
+    user  = {...user["_doc"]}
+    delete user.password
     const options = {
         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
         httpOnly: true
@@ -29,7 +32,8 @@ const sendJwtTokenResponse = (user, statusCode, res) => {
             options)
         .json({
             success: true,
-            token
+            token,
+            user: user
         })
 
 
@@ -37,6 +41,44 @@ const sendJwtTokenResponse = (user, statusCode, res) => {
 
 // end 
 
+exports.uploadUserImage = asyncHandler(async (req, res, next) => {
+    if (!req.files)
+        return next(new ErrorResponse(`Please Upload An Image`, 404))
+
+    const file = req.files.file
+
+
+    if (!file.mimetype.startsWith("image")) {
+        return next(new ErrorResponse(`Please Upload An Image`, 400))
+    }
+
+
+    if (file.szie > process.env.MAX_FILE_UPLOAD)
+        return next(new ErrorResponse(`Please upload an image less than ${process.env.MAX_FILE_UPLOAD} `, 400))
+
+
+        /*
+    if (!game)
+        return next(new ErrorResponse(`Thier Is No Game With Id ${req.params.id} `, 404))
+    */
+
+    file.name = `image_${Math.random(10)}${path.parse(file.name).ext}`
+
+    file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async err => {
+        if (err) {
+            return next(new ErrorResponse(`Problem with file upload`, 500))
+        }
+
+       
+    })
+
+    res.status(201)
+        .json({
+            success: true,
+            imageName: file.name
+        })
+
+})
 
 exports.register = asyncHandler(async (req, res, next) => {
 
@@ -49,7 +91,8 @@ exports.register = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse("This email is already in use!", 401))
 
 
-    const user = await Users.create(req.body)
+    user = await Users.create(req.body)
+   
     sendJwtTokenResponse(user, 201, res)
 })
 
@@ -75,7 +118,7 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse(`Email or Password is wrong 2`), 401)
 
 
-    sendJwtTokenResponse(user, 200, res)
+    sendJwtTokenResponse(await Users.findOne({ email }), 200, res)
 
 
 })

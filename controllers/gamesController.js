@@ -4,6 +4,7 @@ const Survey = require("../models/survey")
 const Tags = require("../models/Tags")
 const asyncHandler = require("../middlewares/asyncHandler")
 const ErrorResponse = require("../utilities/ErrorResponse")
+const { random } = require("colors")
 
 
 // Private Function to check if Tags entered from the body existed in the database
@@ -94,26 +95,26 @@ module.exports = {
         if (file.szie > process.env.MAX_FILE_UPLOAD)
             return next(new ErrorResponse(`Please upload an image less than ${process.env.MAX_FILE_UPLOAD} `, 400))
 
-        const game = await Games.findById(req.params.id)
 
-
+            /*
         if (!game)
             return next(new ErrorResponse(`Thier Is No Game With Id ${req.params.id} `, 404))
+        */
 
-        file.name = `image_${game._id}${path.parse(file.name).ext}`
+        file.name = `image_${Math.random(10)}${path.parse(file.name).ext}`
 
         file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async err => {
             if (err) {
                 return next(new ErrorResponse(`Problem with file upload`, 500))
             }
 
-            await Games.findByIdAndUpdate(req.params.id, { image: file.name })
+           
         })
 
         res.status(201)
             .json({
                 success: true,
-                fileNAme: file.name
+                imageName: file.name
             })
 
     }),
